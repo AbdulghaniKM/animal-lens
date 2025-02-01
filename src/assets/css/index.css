@@ -66,6 +66,18 @@
 
     --ring: 212.7 26.8% 83.9%;
   }
+
+  :root {
+    @apply bg-white text-black transition-colors duration-200;
+  }
+
+  :root.dark {
+    @apply bg-gray-950 text-white;
+  }
+
+  body {
+    @apply min-h-screen;
+  }
 }
 
 @layer base {
