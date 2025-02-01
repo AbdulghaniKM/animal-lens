@@ -14,13 +14,26 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: '1rem',
       screens: {
         '2xl': '1400px',
       },
     },
     extend: {
       colors: {
+        portage: {
+          50: '#f0f5fd',
+          100: '#e4ecfb',
+          200: '#cedcf7',
+          300: '#b0c4f1',
+          400: '#8fa4e9',
+          500: '#7586df',
+          600: '#5a64d1',
+          700: '#4a51b8',
+          800: '#3e4495',
+          900: '#383e77',
+          950: '#212445',
+        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

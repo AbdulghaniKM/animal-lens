@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <Default>
     <router-view></router-view>
-  </div>
+  </Default>
 </template>
+
+<script setup>
+  import Default from '@/layouts/default.vue';
+</script>

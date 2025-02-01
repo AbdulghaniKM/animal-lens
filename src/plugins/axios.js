@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 const Axios = axios.create({
-  baseURL: 'https://api.api-ninjas.com/v1/animals',
+  baseURL: 'https://api.api-ninjas.com/v1/',
   headers: {
-    'X-Api-Key': process.env.VUE_APP_API_KEY,
+    'X-Api-Key': 'yhxeDukonpqWGUlVgswGeA==2N8VnLf1H7vVEHIu',
   },
 });
 
