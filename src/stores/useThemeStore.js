@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-
 export const useThemeStore = defineStore('theme', () => {
   const currentTheme = ref(localStorage.getItem('color-theme') || 'portage');
   const themes = {
@@ -63,23 +62,18 @@ export const useThemeStore = defineStore('theme', () => {
       name: 'purple',
       color: 'bg-purple-500',
       from: 'purple',
-    }
+    },
   };
-
   function setTheme(theme) {
     currentTheme.value = theme;
     localStorage.setItem('color-theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
   }
-
   function getThemeColor(shade = '500') {
     const theme = themes[currentTheme.value];
     return `${theme.from}-${shade}`;
   }
-
-  // Initialize theme
   setTheme(currentTheme.value);
-
   return {
     currentTheme,
     themes,

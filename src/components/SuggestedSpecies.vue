@@ -72,17 +72,14 @@
     </div>
   </div>
 </template>
-
 <script setup>
   import { useAnimalsStore } from '@/stores/useAnimalsStore';
   import { useThemeStore } from '@/stores/useThemeStore';
   import { Icon } from '@iconify/vue';
   import { useRouter } from 'vue-router';
-
   const router = useRouter();
   const animalsStore = useAnimalsStore();
   const themeStore = useThemeStore();
-
   const suggestedSpecies = [
     {
       name: 'Big Cats',
@@ -109,7 +106,6 @@
       description: 'Masters of the sky',
     },
   ];
-
   const handleSpeciesSearch = async (query) => {
     try {
       await animalsStore.searchAnimals(query);

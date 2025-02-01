@@ -15,13 +15,10 @@
     :icon="icon"
   />
 </template>
-
 <script setup>
   import Button from '@/components/ui/button/Button.vue';
   import { useThemeStore } from '@/stores/useThemeStore';
-
   const themeStore = useThemeStore();
-
   defineProps({
     icon: {
       type: String,

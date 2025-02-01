@@ -6,12 +6,12 @@
       `dark:bg-${themeStore.getThemeColor('950')}`,
     ]"
   >
-    <div class="container mx-auto px-4">
-      <div class="hidden items-center justify-between sm:flex">
+    <div class="container px-4 mx-auto">
+      <div class="items-center justify-between hidden sm:flex">
         <div class="flex items-center space-x-8">
           <router-link
             to="/"
-            class="transform text-2xl font-bold text-white transition-transform duration-200 hover:scale-105"
+            class="text-2xl font-bold text-white transition-transform duration-200 transform hover:scale-105"
           >
             AnimalLens
           </router-link>
@@ -30,34 +30,34 @@
         <div class="flex items-center space-x-4">
           <button
             @click="isThemeMenuOpen = !isThemeMenuOpen"
-            class="flex items-center space-x-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/20"
+            class="flex items-center px-4 py-2 space-x-2 text-sm font-medium text-white transition-all rounded-lg bg-white/10 hover:bg-white/20"
           >
             <Icon
               icon="solar:palette-bold"
-              class="h-4 w-4"
+              class="w-4 h-4"
             />
             <span class="capitalize">{{ themeStore.currentTheme }}</span>
           </button>
           <IconButton
             @click="toggleTheme"
             :icon="isDarkMode ? 'solar:moon-bold' : 'solar:sun-bold'"
-            class="rounded-lg bg-white/10 px-4 py-2 font-medium text-white transition-all hover:bg-white/20"
+            class="px-4 py-2 font-medium text-white transition-all rounded-lg bg-white/10 hover:bg-white/20"
           />
         </div>
       </div>
       <div class="flex items-center justify-between sm:hidden">
         <router-link
           to="/"
-          class="transform text-xl font-bold text-white transition-transform duration-200 hover:scale-105"
+          class="text-xl font-bold text-white transition-transform duration-200 transform hover:scale-105"
         >
           AnimalLens
         </router-link>
         <button
           @click="toggleMenu"
-          class="relative z-50 rounded-lg p-2 text-white"
+          class="relative z-50 p-2 text-white rounded-lg"
           aria-label="Toggle menu"
         >
-          <div class="relative h-6 w-6">
+          <div class="relative w-6 h-6">
             <div
               :class="[
                 'absolute h-0.5 w-6 transform bg-current transition-all duration-300',
@@ -95,7 +95,7 @@
             isMenuOpen ? 'translate-x-0' : 'translate-x-full',
           ]"
         >
-          <div class="flex h-full flex-col p-6">
+          <div class="flex flex-col h-full p-6">
             <nav class="space-y-4">
               <router-link
                 v-for="link in navigationLinks"
@@ -112,11 +112,11 @@
               <p class="text-lg font-medium text-white">Change Theme</p>
               <button
                 @click="isThemeMenuOpen = !isThemeMenuOpen"
-                class="flex w-full items-center justify-center space-x-2 rounded-lg bg-white/10 px-4 py-2 font-medium text-white transition-all hover:bg-white/20"
+                class="flex items-center justify-center w-full px-4 py-2 space-x-2 font-medium text-white transition-all rounded-lg bg-white/10 hover:bg-white/20"
               >
                 <Icon
                   icon="solar:palette-bold"
-                  class="h-4 w-4"
+                  class="w-4 h-4"
                 />
                 <span class="capitalize">{{ themeStore.currentTheme }}</span>
               </button>
@@ -124,7 +124,7 @@
               <IconButton
                 @click="toggleTheme"
                 :icon="isDarkMode ? 'solar:moon-bold' : 'solar:sun-bold'"
-                class="w-full rounded-lg bg-white/10 px-4 py-2 font-medium text-white transition-all hover:bg-white/20"
+                class="w-full px-4 py-2 font-medium text-white transition-all rounded-lg bg-white/10 hover:bg-white/20"
               />
             </div>
           </div>
@@ -133,20 +133,20 @@
       <div
         v-if="isThemeMenuOpen"
         ref="themeMenuRef"
-        class="absolute right-4 top-16 z-50 w-48 rounded-lg bg-white shadow-lg dark:bg-gray-800"
+        class="absolute z-50 w-48 bg-white rounded-lg shadow-lg right-4 top-16 dark:bg-gray-800"
       >
-        <div class="space-y-1 p-2">
+        <div class="p-2 space-y-1">
           <button
             v-for="theme in Object.values(themeStore.themes)"
             :key="theme.name"
             @click="handleThemeSelect(theme.name)"
-            class="flex w-full items-center space-x-2 rounded-md px-3 py-2 text-left text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="flex items-center w-full px-3 py-2 space-x-2 text-sm font-medium text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
             :class="{
               'bg-gray-100 dark:bg-gray-700': themeStore.currentTheme === theme.name,
             }"
           >
             <div :class="`h-4 w-4 rounded-full ${theme.color}`" />
-            <span class="capitalize text-gray-900 dark:text-white">{{ theme.name }}</span>
+            <span class="text-gray-900 capitalize dark:text-white">{{ theme.name }}</span>
           </button>
         </div>
       </div>

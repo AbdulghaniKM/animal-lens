@@ -35,8 +35,6 @@
           Showing results for "{{ route.query.q }}"
         </p>
       </div>
-
-      <!-- Loading State -->
       <div
         v-if="isLoading"
         class="flex justify-center py-12"
@@ -50,14 +48,15 @@
               `dark:text-${themeStore.getThemeColor('400')}`,
             ]"
           />
-          <p :class="[
-            `text-${themeStore.getThemeColor('700')}`,
-            `dark:text-${themeStore.getThemeColor('300')}`,
-          ]">Searching for animals...</p>
+          <p
+            :class="[
+              `text-${themeStore.getThemeColor('700')}`,
+              `dark:text-${themeStore.getThemeColor('300')}`,
+            ]"
+            >Searching for animals...</p
+          >
         </div>
       </div>
-
-      <!-- Empty State -->
       <div
         v-else-if="!animalsStore.animals.length"
         :class="[
@@ -106,14 +105,12 @@
           >
             <Icon
               icon="solar:home-2-bold"
-              class="h-5 w-5"
+              class="w-5 h-5"
             />
             Back to Home
           </router-link>
         </div>
       </div>
-
-      <!-- Results Grid -->
       <div
         v-else
         class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3"
@@ -130,7 +127,6 @@
     </div>
   </main>
 </template>
-
 <script setup>
   import AnimalCard from '@/components/AnimalCard.vue';
   import { useAnimalsStore } from '@/stores/useAnimalsStore';
@@ -138,12 +134,10 @@
   import { Icon } from '@iconify/vue';
   import { onMounted, ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
-
   const route = useRoute();
   const animalsStore = useAnimalsStore();
   const themeStore = useThemeStore();
   const isLoading = ref(true);
-
   async function searchAnimals(query) {
     if (!query) return;
     isLoading.value = true;
@@ -153,7 +147,6 @@
       isLoading.value = false;
     }
   }
-
   watch(
     () => route.query.q,
     (newQuery) => {
@@ -162,7 +155,6 @@
       }
     }
   );
-
   onMounted(() => {
     if (route.query.q) {
       searchAnimals(route.query.q);

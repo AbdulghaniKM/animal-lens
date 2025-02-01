@@ -32,11 +32,10 @@
             `dark:text-${themeStore.getThemeColor('200')}`,
           ]"
         >
-          Here are all the animals you've marked as favorites. You can remove them from your favorites
-          by clicking the heart icon.
+          Here are all the animals you've marked as favorites. You can remove them from your
+          favorites by clicking the heart icon.
         </p>
       </div>
-
       <!-- Empty State -->
       <div
         v-if="!favoriteAnimals.length"
@@ -86,13 +85,12 @@
           >
             <Icon
               icon="solar:home-2-bold"
-              class="h-5 w-5"
+              class="w-5 h-5"
             />
             Back to Home
           </router-link>
         </div>
       </div>
-
       <!-- Favorites Grid -->
       <div
         v-else
@@ -110,17 +108,14 @@
     </div>
   </main>
 </template>
-
 <script setup>
   import AnimalCard from '@/components/AnimalCard.vue';
   import { useAnimalsStore } from '@/stores/useAnimalsStore';
   import { useThemeStore } from '@/stores/useThemeStore';
   import { Icon } from '@iconify/vue';
   import { computed } from 'vue';
-
   const animalsStore = useAnimalsStore();
   const themeStore = useThemeStore();
-
   const favoriteAnimals = computed(() => {
     return animalsStore.animals.filter((animal) => animalsStore.isFavorite(animal));
   });

@@ -1,12 +1,10 @@
 import { $axios } from '@/plugins/axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-
 export const useAnimalsStore = defineStore('animals', () => {
   const animals = ref([]);
   const favorites = ref(new Set());
   const isInitialized = ref(false);
-
   function initFromStorage() {
     try {
       const storedAnimals = localStorage.getItem('animals');
@@ -25,7 +23,6 @@ export const useAnimalsStore = defineStore('animals', () => {
       console.error('Error loading from storage:', error);
     }
   }
-
   async function fetchAnimals(type) {
     try {
       if (animals.value.length > 0) {
@@ -44,7 +41,6 @@ export const useAnimalsStore = defineStore('animals', () => {
       console.error(`Error fetching ${type}:`, error);
     }
   }
-
   function toggleFavorite(animal) {
     const index = animals.value.findIndex((a) => a.name === animal.name);
     if (index !== -1) {
@@ -59,29 +55,24 @@ export const useAnimalsStore = defineStore('animals', () => {
     }
     return animals.value[index]?.isFavorite || false;
   }
-
   function isFavorite(animal) {
     return favorites.value.has(animal.name);
   }
-
   function clearStorage() {
     localStorage.removeItem('animals');
     localStorage.removeItem('favorites');
     animals.value = [];
     favorites.value = new Set();
   }
-
   async function searchAnimals(query) {
     try {
       const response = await $axios.get('v1/animals', {
         params: { name: query },
       });
-
       const searchResults = response.data.map((animal) => ({
         ...animal,
         isFavorite: favorites.value.has(animal.name),
       }));
-
       animals.value = searchResults;
       localStorage.setItem('animals', JSON.stringify(animals.value));
     } catch (error) {
@@ -89,7 +80,6 @@ export const useAnimalsStore = defineStore('animals', () => {
       throw error;
     }
   }
-
   initFromStorage();
   return {
     animals,

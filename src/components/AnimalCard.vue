@@ -43,7 +43,7 @@
             </p>
           </div>
           <IconButton
-            class="absolute right-4 top-4 border-none transition-all duration-300 hover:scale-110 dark:shadow-lg"
+            class="absolute transition-all duration-300 border-none right-4 top-4 hover:scale-110 dark:shadow-lg"
             :class="[
               isFavorite
                 ? [
@@ -101,7 +101,6 @@
         </div>
       </CardTitle>
     </CardHeader>
-
     <CardContent
       :class="[
         'space-y-4 bg-gradient-to-br from-transparent p-6',
@@ -148,13 +147,11 @@
     </CardContent>
   </Card>
 </template>
-
 <script setup>
   import IconButton from '@/components/IconButton.vue';
   import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
   import { useThemeStore } from '@/stores/useThemeStore';
   import { computed } from 'vue';
-
   const props = defineProps({
     animal: {
       type: Object,
@@ -165,10 +162,8 @@
       required: true,
     },
   });
-
   const themeStore = useThemeStore();
   defineEmits(['toggle-favorite']);
-
   const displayInfo = computed(() => ({
     Slogan: props.animal.characteristics.slogan || 'No slogan available',
     Lifespan: props.animal.characteristics.lifespan || 'No lifespan available',
@@ -176,11 +171,9 @@
       props.animal.characteristics.biggest_threat || 'No biggest threats available',
     Diet: props.animal.characteristics.diet || 'No diet available',
   }));
-
   const formatKey = (key) => {
     return key.charAt(0).toUpperCase() + key.slice(1);
   };
-
   const formatValue = (value) => {
     return value;
   };

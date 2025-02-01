@@ -7,7 +7,6 @@
     ]"
   >
     <div class="container py-8">
-      <!-- Hero Section -->
       <div class="mb-12 text-center">
         <h1
           :class="[
@@ -37,7 +36,6 @@
           predators to gentle giants, explore their unique characteristics and stories.
         </p>
         <div class="flex flex-col items-center justify-center gap-4 mt-6">
-          <!-- Search Input -->
           <div class="w-full max-w-xl">
             <div
               :class="[
@@ -67,7 +65,6 @@
                 ]"
                 @keyup.enter="handleSearch"
               />
-
               <button
                 v-if="searchQuery"
                 @click="handleSearch"
@@ -82,8 +79,6 @@
               </button>
             </div>
           </div>
-
-          <!-- Info Banner -->
           <div
             :class="[
               'motion-preset-slide flex max-w-xl items-center gap-3 rounded-lg px-4 py-3 motion-delay-300',
@@ -116,8 +111,6 @@
       <div class="mb-8">
         <SuggestedSpecies />
       </div>
-
-      <!-- Featured Section -->
       <div class="mb-8">
         <div class="flex items-center justify-between">
           <h2
@@ -156,7 +149,6 @@
             Shuffle
           </button>
         </div>
-
         <div
           v-if="isLoading"
           class="flex justify-center py-12"
@@ -181,7 +173,6 @@
             </p>
           </div>
         </div>
-
         <div
           v-else
           class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3"
@@ -198,8 +189,6 @@
           </template>
         </div>
       </div>
-
-      <!-- Quick Stats -->
       <div
         :class="[
           'mt-12 grid grid-cols-1 gap-6 rounded-xl p-6 sm:grid-cols-3',
@@ -268,7 +257,6 @@
     </div>
   </main>
 </template>
-
 <script setup>
   import AnimalCard from '@/components/AnimalCard.vue';
   import SuggestedSpecies from '@/components/SuggestedSpecies.vue';
@@ -277,15 +265,12 @@
   import { Icon } from '@iconify/vue';
   import { computed, onMounted, ref, watch } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-
   const animalsStore = useAnimalsStore();
   const themeStore = useThemeStore();
   const route = useRoute();
   const router = useRouter();
   const searchQuery = ref(route.query.q || '');
   const isLoading = ref(true);
-
-  // Watch for route query changes
   watch(
     () => route.query.q,
     (newQuery) => {
@@ -297,7 +282,6 @@
       }
     }
   );
-
   function shuffleArray(array) {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -306,12 +290,10 @@
     }
     return shuffled;
   }
-
   const shuffledAnimals = computed(() => {
     if (!animalsStore.animals.length) return [];
     return shuffleArray(animalsStore.animals);
   });
-
   const uniqueLocations = computed(() => {
     const locations = new Set();
     animalsStore.animals.forEach((animal) => {
@@ -321,19 +303,14 @@
     });
     return locations.size;
   });
-
   function shuffleAnimals() {
-    // Trigger a reactive update
     animalsStore.animals = [...animalsStore.animals];
   }
-
   async function handleSearch() {
     if (!searchQuery.value.trim()) return;
-
     isLoading.value = true;
     try {
       await animalsStore.fetchAnimals(searchQuery.value);
-      // Update the URL to /search with search query
       router.push({
         path: '/search',
         query: { q: searchQuery.value },
@@ -344,15 +321,12 @@
       isLoading.value = false;
     }
   }
-
   onMounted(async () => {
     isLoading.value = true;
     try {
-      // If there's a search query in the URL, use it
       if (route.query.q) {
         await animalsStore.fetchAnimals(route.query.q);
       } else {
-        // Otherwise load default animals
         await Promise.all([
           animalsStore.fetchAnimals('cat'),
           animalsStore.fetchAnimals('lion'),
