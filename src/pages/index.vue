@@ -36,7 +36,7 @@
           Discover the fascinating world of animals through our curated collection. From majestic
           predators to gentle giants, explore their unique characteristics and stories.
         </p>
-        <div class="mt-6 flex flex-col items-center justify-center gap-4">
+        <div class="flex flex-col items-center justify-center gap-4 mt-6">
           <!-- Search Input -->
           <div class="w-full max-w-xl">
             <div
@@ -151,7 +151,7 @@
           >
             <Icon
               icon="solar:refresh-circle-bold"
-              class="h-5 w-5"
+              class="w-5 h-5"
             />
             Shuffle
           </button>
@@ -275,12 +275,28 @@
   import { useAnimalsStore } from '@/stores/useAnimalsStore';
   import { useThemeStore } from '@/stores/useThemeStore';
   import { Icon } from '@iconify/vue';
-  import { computed, onMounted, ref } from 'vue';
+  import { computed, onMounted, ref, watch } from 'vue';
+  import { useRoute, useRouter } from 'vue-router';
 
   const animalsStore = useAnimalsStore();
   const themeStore = useThemeStore();
-  const searchQuery = ref('');
+  const route = useRoute();
+  const router = useRouter();
+  const searchQuery = ref(route.query.q || '');
   const isLoading = ref(true);
+
+  // Watch for route query changes
+  watch(
+    () => route.query.q,
+    (newQuery) => {
+      if (newQuery !== searchQuery.value) {
+        searchQuery.value = newQuery || '';
+        if (newQuery) {
+          handleSearch();
+        }
+      }
+    }
+  );
 
   function shuffleArray(array) {
     const shuffled = [...array];
@@ -317,6 +333,13 @@
     isLoading.value = true;
     try {
       await animalsStore.fetchAnimals(searchQuery.value);
+      // Update the URL to /search with search query
+      router.push({
+        path: '/search',
+        query: { q: searchQuery.value },
+      });
+    } catch (error) {
+      console.error('Search failed:', error);
     } finally {
       isLoading.value = false;
     }
@@ -325,11 +348,17 @@
   onMounted(async () => {
     isLoading.value = true;
     try {
-      await Promise.all([
-        animalsStore.fetchAnimals('cat'),
-        animalsStore.fetchAnimals('lion'),
-        animalsStore.fetchAnimals('fox'),
-      ]);
+      // If there's a search query in the URL, use it
+      if (route.query.q) {
+        await animalsStore.fetchAnimals(route.query.q);
+      } else {
+        // Otherwise load default animals
+        await Promise.all([
+          animalsStore.fetchAnimals('cat'),
+          animalsStore.fetchAnimals('lion'),
+          animalsStore.fetchAnimals('fox'),
+        ]);
+      }
     } finally {
       isLoading.value = false;
     }
