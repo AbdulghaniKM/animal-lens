@@ -1,70 +1,131 @@
 <template>
   <main
-    class="min-h-screen bg-gradient-to-b from-portage-200 to-portage-400 dark:bg-gradient-to-b dark:from-portage-900 dark:to-portage-950"
+    :class="[
+      'min-h-screen bg-gradient-to-b dark:bg-gradient-to-b',
+      `from-${themeStore.getThemeColor('200')} to-${themeStore.getThemeColor('400')}`,
+      `dark:from-${themeStore.getThemeColor('900')} dark:to-${themeStore.getThemeColor('950')}`,
+    ]"
   >
     <div class="container py-8">
-      <div class="mb-8 flex items-center justify-between">
-        <div class="flex items-center gap-3">
+      <div class="mb-12 text-center">
+        <h1
+          :class="[
+            'motion-preset-focus mb-4 bg-gradient-to-r bg-clip-text text-4xl font-bold text-transparent motion-delay-100 md:text-5xl',
+            `from-${themeStore.getThemeColor('700')} to-${themeStore.getThemeColor('500')}`,
+            `dark:from-${themeStore.getThemeColor('300')} dark:to-${themeStore.getThemeColor('100')}`,
+          ]"
+        >
+          Search Results
           <Icon
             icon="solar:magnifier-bold"
-            class="h-6 w-6 text-portage-600 dark:text-portage-400"
+            :class="[
+              'motion-preset-bounce mr-2 inline-block h-6 w-6',
+              `text-${themeStore.getThemeColor('500')}`,
+              `dark:text-${themeStore.getThemeColor('400')}`,
+            ]"
           />
-          <h1 class="text-3xl font-bold text-portage-950 dark:text-portage-100">
-            Search Results for "{{ searchQuery }}"
-          </h1>
-        </div>
-        <div
-          class="motion-preset-slide flex items-center gap-2 rounded-lg bg-white/50 px-4 py-2 motion-delay-200 dark:bg-portage-900/50"
+        </h1>
+        <p
+          :class="[
+            'motion-preset-focus mx-auto max-w-2xl text-lg motion-delay-200',
+            `text-${themeStore.getThemeColor('800')}`,
+            `dark:text-${themeStore.getThemeColor('200')}`,
+          ]"
         >
+          Showing results for "{{ route.query.q }}"
+        </p>
+      </div>
+
+      <!-- Loading State -->
+      <div
+        v-if="isLoading"
+        class="flex justify-center py-12"
+      >
+        <div class="flex flex-col items-center gap-4">
           <Icon
-            icon="solar:documents-bold"
-            class="h-5 w-5 text-portage-600 dark:text-portage-400"
+            icon="solar:loading-bold"
+            :class="[
+              'h-12 w-12 animate-spin',
+              `text-${themeStore.getThemeColor('500')}`,
+              `dark:text-${themeStore.getThemeColor('400')}`,
+            ]"
           />
-          <span class="font-medium text-portage-700 dark:text-portage-300">
-            {{ animalsStore.animals.length }} results
-          </span>
+          <p :class="[
+            `text-${themeStore.getThemeColor('700')}`,
+            `dark:text-${themeStore.getThemeColor('300')}`,
+          ]">Searching for animals...</p>
         </div>
       </div>
 
+      <!-- Empty State -->
       <div
-        class="motion-preset-slide grid grid-cols-1 gap-6 motion-delay-300 sm:grid-cols-2 md:grid-cols-3"
+        v-else-if="!animalsStore.animals.length"
+        :class="[
+          'flex flex-col items-center justify-center gap-4 rounded-xl p-12 text-center',
+          'bg-white/50',
+          `dark:bg-${themeStore.getThemeColor('900')}/50`,
+        ]"
       >
-        <template v-if="animalsStore.animals.length">
-          <AnimalCard
-            v-for="animal in animalsStore.animals"
-            :key="animal.name"
-            :animal="animal"
-            :is-favorite="animalsStore.isFavorite(animal)"
-            @toggle-favorite="animalsStore.toggleFavorite(animal)"
-            class="transform transition-all duration-300 hover:translate-y-[-4px]"
-          />
-        </template>
-        <div
-          v-else
-          class="motion-preset-focus col-span-full flex min-h-[400px] flex-col items-center justify-center rounded-xl bg-white/50 p-8 text-center dark:bg-portage-900/50"
-        >
-          <Icon
-            icon="solar:round-search-broken-bold"
-            class="mb-4 h-16 w-16 text-portage-400 dark:text-portage-600"
-          />
-          <h2 class="mb-2 text-xl font-bold text-portage-800 dark:text-portage-200">
+        <Icon
+          icon="solar:emoji-sad-circle-bold"
+          :class="[
+            'h-16 w-16',
+            `text-${themeStore.getThemeColor('500')}`,
+            `dark:text-${themeStore.getThemeColor('400')}`,
+          ]"
+        />
+        <div>
+          <h2
+            :class="[
+              'mb-2 text-2xl font-bold',
+              `text-${themeStore.getThemeColor('900')}`,
+              `dark:text-${themeStore.getThemeColor('100')}`,
+            ]"
+          >
             No Results Found
           </h2>
-          <p class="mb-6 max-w-md text-portage-600 dark:text-portage-400">
-            Try searching for different animals or check out our suggested categories on the home
-            page.
+          <p
+            :class="[
+              `text-${themeStore.getThemeColor('700')}`,
+              `dark:text-${themeStore.getThemeColor('300')}`,
+            ]"
+          >
+            Try searching for a different animal or check out our suggested categories.
           </p>
           <router-link
             to="/"
-            class="flex items-center gap-2 rounded-lg bg-portage-500 px-6 py-3 text-white transition-all hover:bg-portage-600 dark:bg-portage-600 dark:hover:bg-portage-700"
+            :class="[
+              'motion-preset-pop mt-6 inline-flex items-center gap-2 rounded-lg px-4 py-2 transition-all',
+              `bg-${themeStore.getThemeColor('500')}/10`,
+              `text-${themeStore.getThemeColor('700')}`,
+              `hover:bg-${themeStore.getThemeColor('500')}/20`,
+              `dark:bg-${themeStore.getThemeColor('400')}/10`,
+              `dark:text-${themeStore.getThemeColor('300')}`,
+              `dark:hover:bg-${themeStore.getThemeColor('400')}/20`,
+            ]"
           >
             <Icon
-              icon="solar:home-bold"
+              icon="solar:home-2-bold"
               class="h-5 w-5"
             />
             Back to Home
           </router-link>
         </div>
+      </div>
+
+      <!-- Results Grid -->
+      <div
+        v-else
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3"
+      >
+        <AnimalCard
+          v-for="animal in animalsStore.animals"
+          :key="animal.name"
+          :animal="animal"
+          :is-favorite="animalsStore.isFavorite(animal)"
+          @toggle-favorite="animalsStore.toggleFavorite(animal)"
+          class="transform transition-all duration-300 hover:translate-y-[-4px]"
+        />
       </div>
     </div>
   </main>
@@ -73,12 +134,38 @@
 <script setup>
   import AnimalCard from '@/components/AnimalCard.vue';
   import { useAnimalsStore } from '@/stores/useAnimalsStore';
+  import { useThemeStore } from '@/stores/useThemeStore';
   import { Icon } from '@iconify/vue';
-  import { computed } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
 
-  const animalsStore = useAnimalsStore();
   const route = useRoute();
+  const animalsStore = useAnimalsStore();
+  const themeStore = useThemeStore();
+  const isLoading = ref(true);
 
-  const searchQuery = computed(() => route.query.q || '');
+  async function searchAnimals(query) {
+    if (!query) return;
+    isLoading.value = true;
+    try {
+      await animalsStore.searchAnimals(query);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  watch(
+    () => route.query.q,
+    (newQuery) => {
+      if (newQuery) {
+        searchAnimals(newQuery);
+      }
+    }
+  );
+
+  onMounted(() => {
+    if (route.query.q) {
+      searchAnimals(route.query.q);
+    }
+  });
 </script>
