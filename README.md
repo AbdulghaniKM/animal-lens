@@ -2,11 +2,11 @@
 
 ## Overview
 
-A modern, production-ready starter template for building Vue.js applications with the power of Tailwind CSS and ShadCN components. This template emphasizes developer experience, performance, and best practices.
+Animal Lens is a web application that allows users to explore and discover various animal species. Built with Vue.js, Tailwind CSS, and ShadCN components, it provides an intuitive interface for searching animals, viewing detailed information, and saving favorites. The application showcases modern web development practices with features like responsive design, theme customization, and a seamless user experience. Leveraging Vue Router for navigation, Pinia for state management, and a carefully crafted UI component system, Animal Lens demonstrates how these technologies can work together to create an engaging and educational platform.
 
 ## Live Demo
 
-[Live Demo](https://vue-project-pack.vercel.app/)
+[Live Demo](https://animal-lens.vercel.app/)
 
 ## ⚡️ Key Technologies
 
@@ -54,9 +54,10 @@ A modern, production-ready starter template for building Vue.js applications wit
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/AbdulghaniKM/vue-project-pack.git
-cd vue-project-pack
+git clone https://github.com/AbdulghaniKM/animal-lens.git
+cd animal-lens
 ```
+
 
 2. Install dependencies:
 
@@ -73,13 +74,14 @@ npm run dev
 ### Project Structure
 
 ```bash
-vue-project-pack/
+animal-lens/
 ├── public/ # Static assets
 ├── src/
 │ ├── assets/ # Project assets
 │ │ └── css/ # Global CSS files
 │ ├── components/ # Reusable Vue components
 │ │ └── ui/ # ShadCN UI components
+
 │ ├── lib/ # Utility functions
 │ ├── pages/ # Vue Router page components
 │ ├── router/ # Vue Router configuration
