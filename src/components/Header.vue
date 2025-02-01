@@ -1,152 +1,158 @@
 <template>
   <header
     :class="[
-      'motion-preset-slide-down sticky top-0 z-50 border-b py-4 backdrop-blur-sm',
-      `border-${themeStore.getThemeColor('400')}/20`,
-      `bg-${themeStore.getThemeColor('500')}/95`,
-      `dark:border-${themeStore.getThemeColor('800')}/30`,
-      `dark:bg-${themeStore.getThemeColor('950')}/95`,
+      'sticky top-0 z-50 py-4',
+      `bg-${themeStore.getThemeColor('900')}`,
+      `dark:bg-${themeStore.getThemeColor('950')}`,
     ]"
   >
-    <div class="container flex items-center justify-between">
-      <div class="flex items-center gap-6">
-        <router-link
-          to="/"
-          :class="[
-            'text-2xl font-bold transition-colors hover:text-white',
-            themeStore.currentTheme === 'emerald'
-              ? 'text-emerald-50 dark:text-emerald-100'
-              : 'text-portage-50 dark:text-portage-100',
-          ]"
-        >
-          AnimalLens
-        </router-link>
-
-        <nav class="flex items-center gap-4">
+    <div class="container mx-auto px-4">
+      <div class="hidden items-center justify-between sm:flex">
+        <div class="flex items-center space-x-8">
           <router-link
             to="/"
-            :class="[
-              'transition-colors hover:text-white dark:hover:text-white',
-              themeStore.currentTheme === 'emerald'
-                ? 'text-emerald-200 dark:text-emerald-200'
-                : 'text-portage-200 dark:text-portage-200',
-            ]"
-            active-class="text-white dark:text-white"
+            class="transform text-2xl font-bold text-white transition-transform duration-200 hover:scale-105"
           >
-            Home
+            AnimalLens
           </router-link>
-          <router-link
-            to="/animals/favorites"
-            :class="[
-              'transition-colors hover:text-white',
-              `text-${themeStore.getThemeColor('200')}`,
-              `dark:text-${themeStore.getThemeColor('200')}`,
-              'dark:hover:text-white',
-            ]"
-            active-class="text-white dark:text-white"
-          >
-            Favorites
-          </router-link>
-        </nav>
-      </div>
-
-      <div class="flex items-center gap-4">
-        <div class="relative">
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="Search animals..."
-            :class="[
-              'motion-preset-focus rounded-lg px-4 py-2 motion-delay-200 focus:outline-none focus:ring-2',
-              `bg-${themeStore.getThemeColor('400')}/20`,
-              `text-${themeStore.getThemeColor('100')}`,
-              `placeholder:text-${themeStore.getThemeColor('200')}`,
-              `focus:ring-${themeStore.getThemeColor('00')}/50`,
-              `dark:bg-${themeStore.getThemeColor('800')}/30`,
-              `dark:text-${themeStore.getThemeColor('200')}`,
-              `dark:placeholder:text-${themeStore.getThemeColor('400')}`,
-              `dark:focus:ring-${themeStore.getThemeColor('600')}/50`,
-            ]"
-            @keyup.enter="handleSearch"
-          />
-          <button
-            @click="handleSearch"
-            :class="`absolute right-2 top-1/2 -translate-y-1/2 text-${themeStore.getThemeColor('200')} hover:text-white dark:text-${themeStore.getThemeColor('400')} dark:hover:text-white`"
-          >
-            <Icon
-              icon="mdi:search"
-              class="h-5 w-5"
-            />
-          </button>
+          <nav class="flex items-center space-x-6">
+            <router-link
+              v-for="link in navigationLinks"
+              :key="link.path"
+              :to="link.path"
+              class="font-medium text-gray-300 transition-colors hover:text-white"
+              :class="{ 'text-white': route.path === link.path }"
+            >
+              {{ link.name }}
+            </router-link>
+          </nav>
         </div>
-        <div class="relative">
+        <div class="flex items-center space-x-4">
           <button
             @click="isThemeMenuOpen = !isThemeMenuOpen"
-            :class="[
-              'flex items-center gap-2 rounded-lg px-3 py-2 transition-all hover:text-white',
-              `bg-${themeStore.getThemeColor('400')}/20`,
-              `text-${themeStore.getThemeColor('100')}`,
-              `hover:bg-${themeStore.getThemeColor('400')}/30`,
-              `dark:bg-${themeStore.getThemeColor('800')}/30`,
-              `dark:text-${themeStore.getThemeColor('200')}`,
-              `dark:hover:bg-${themeStore.getThemeColor('800')}/50`,
-            ]"
+            class="flex items-center space-x-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/20"
           >
             <Icon
               icon="solar:palette-bold"
-              class="h-5 w-5"
+              class="h-4 w-4"
             />
-            <span class="text-sm capitalize">{{ themeStore.currentTheme }}</span>
+            <span class="capitalize">{{ themeStore.currentTheme }}</span>
           </button>
-
-          <div
-            v-if="isThemeMenuOpen"
-            class="absolute right-0 mt-2 w-48 rounded-lg bg-white shadow-lg"
-            :class="`dark:bg-${themeStore.getThemeColor('950')}`"
-          >
-            <div class="p-2">
-              <button
-                v-for="theme in Object.values(themeStore.themes)"
-                :key="theme.name"
-                @click="selectTheme(theme.name)"
-                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm"
-                :class="[
-                  `text-${themeStore.getThemeColor('700')}`,
-                  `dark:text-${themeStore.getThemeColor('300')}`,
-                  `hover:bg-${themeStore.getThemeColor('50')}`,
-                  `dark:hover:bg-${themeStore.getThemeColor('900')}`,
-                  {
-                    [`bg-${themeStore.getThemeColor('50')}`]:
-                      themeStore.currentTheme === theme.name,
-                    [`dark:bg-${themeStore.getThemeColor('900')}`]:
-                      themeStore.currentTheme === theme.name,
-                  },
-                ]"
+          <IconButton
+            @click="toggleTheme"
+            :icon="isDarkMode ? 'solar:moon-bold' : 'solar:sun-bold'"
+            class="rounded-lg bg-white/10 px-4 py-2 font-medium text-white transition-all hover:bg-white/20"
+          />
+        </div>
+      </div>
+      <div class="flex items-center justify-between sm:hidden">
+        <router-link
+          to="/"
+          class="transform text-xl font-bold text-white transition-transform duration-200 hover:scale-105"
+        >
+          AnimalLens
+        </router-link>
+        <button
+          @click="toggleMenu"
+          class="relative z-50 rounded-lg p-2 text-white"
+          aria-label="Toggle menu"
+        >
+          <div class="relative h-6 w-6">
+            <div
+              :class="[
+                'absolute h-0.5 w-6 transform bg-current transition-all duration-300',
+                isMenuOpen ? 'top-3 rotate-45' : 'top-1',
+              ]"
+            />
+            <div
+              :class="[
+                'absolute top-3 h-0.5 w-6 transform bg-current transition-all duration-300',
+                isMenuOpen ? 'opacity-0' : 'opacity-100',
+              ]"
+            />
+            <div
+              :class="[
+                'absolute h-0.5 w-6 transform bg-current transition-all duration-300',
+                isMenuOpen ? 'top-3 -rotate-45' : 'top-5',
+              ]"
+            />
+          </div>
+        </button>
+      </div>
+      <div
+        v-show="isMenuOpen"
+        class="fixed inset-0 z-40 sm:hidden"
+      >
+        <div
+          class="fixed inset-0 bg-black/50 backdrop-blur-sm"
+          @click="toggleMenu"
+        />
+        <div
+          :class="[
+            'fixed inset-y-0 right-0 w-64 transform transition-transform duration-300',
+            `bg-${themeStore.getThemeColor('900')}`,
+            `dark:bg-${themeStore.getThemeColor('950')}`,
+            isMenuOpen ? 'translate-x-0' : 'translate-x-full',
+          ]"
+        >
+          <div class="flex h-full flex-col p-6">
+            <nav class="space-y-4">
+              <router-link
+                v-for="link in navigationLinks"
+                :key="link.path"
+                :to="link.path"
+                class="block font-medium text-gray-300 transition-colors hover:text-white"
+                :class="{ 'text-white': route.path === link.path }"
+                @click="toggleMenu"
               >
-                <div :class="`h-4 w-4 rounded-full ${theme.color}`" />
-                <span class="capitalize">{{ theme.name }}</span>
+                {{ link.name }}
+              </router-link>
+            </nav>
+            <div class="mt-6 space-y-4">
+              <p class="text-lg font-medium text-white">Change Theme</p>
+              <button
+                @click="isThemeMenuOpen = !isThemeMenuOpen"
+                class="flex w-full items-center justify-center space-x-2 rounded-lg bg-white/10 px-4 py-2 font-medium text-white transition-all hover:bg-white/20"
+              >
+                <Icon
+                  icon="solar:palette-bold"
+                  class="h-4 w-4"
+                />
+                <span class="capitalize">{{ themeStore.currentTheme }}</span>
               </button>
+              <p class="text-lg font-medium text-white">Change Mode</p>
+              <IconButton
+                @click="toggleTheme"
+                :icon="isDarkMode ? 'solar:moon-bold' : 'solar:sun-bold'"
+                class="w-full rounded-lg bg-white/10 px-4 py-2 font-medium text-white transition-all hover:bg-white/20"
+              />
             </div>
           </div>
         </div>
-        <IconButton
-          @click="toggleTheme"
-          :icon="isDarkMode ? 'solar:moon-bold' : 'solar:sun-bold'"
-          class="motion-preset-pop flex items-center gap-2 rounded-lg px-4 py-2 transition-all"
-          :class="[
-            `bg-${themeStore.getThemeColor('400')}/20`,
-            `text-${themeStore.getThemeColor('100')}`,
-            `hover:bg-${themeStore.getThemeColor('500')}`,
-            `dark:bg-${themeStore.getThemeColor('800')}/30`,
-            `dark:text-${themeStore.getThemeColor('200')}`,
-            `dark:hover:bg-${themeStore.getThemeColor('800')}/50`,
-          ]"
-        />
+      </div>
+      <div
+        v-if="isThemeMenuOpen"
+        ref="themeMenuRef"
+        class="absolute right-4 top-16 z-50 w-48 rounded-lg bg-white shadow-lg dark:bg-gray-800"
+      >
+        <div class="space-y-1 p-2">
+          <button
+            v-for="theme in Object.values(themeStore.themes)"
+            :key="theme.name"
+            @click="handleThemeSelect(theme.name)"
+            class="flex w-full items-center space-x-2 rounded-md px-3 py-2 text-left text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700"
+            :class="{
+              'bg-gray-100 dark:bg-gray-700': themeStore.currentTheme === theme.name,
+            }"
+          >
+            <div :class="`h-4 w-4 rounded-full ${theme.color}`" />
+            <span class="capitalize text-gray-900 dark:text-white">{{ theme.name }}</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 </template>
-
 <script setup>
   import IconButton from '@/components/IconButton.vue';
   import { initTheme, isDarkMode, toggleTheme } from '@/composables/useToggleTheme';
@@ -156,16 +162,11 @@
   import { onClickOutside } from '@vueuse/core';
   import { onMounted, ref, watch } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-
   const animalsStore = useAnimalsStore();
   const router = useRouter();
   const route = useRoute();
   const themeStore = useThemeStore();
-
-  // Initialize searchQuery from URL
   const searchQuery = ref(route.query.q || '');
-
-  // Watch for route changes to update searchQuery
   watch(
     () => route.query.q,
     (newQuery) => {
@@ -174,10 +175,8 @@
       }
     }
   );
-
   const handleSearch = async () => {
     if (!searchQuery.value.trim()) return;
-
     try {
       await animalsStore.searchAnimals(searchQuery.value);
       router.push({
@@ -188,20 +187,48 @@
       console.error('Search failed:', error);
     }
   };
-
   const isThemeMenuOpen = ref(false);
   const themeMenuRef = ref(null);
-
-  function selectTheme(theme) {
+  const isMenuOpen = ref(false);
+  function handleThemeSelect(theme) {
     themeStore.setTheme(theme);
     isThemeMenuOpen.value = false;
+    if (isMenuOpen.value) {
+      isMenuOpen.value = false;
+      document.body.style.overflow = '';
+    }
   }
-
   onClickOutside(themeMenuRef, () => {
-    isThemeMenuOpen.value = false;
+    if (isThemeMenuOpen.value) {
+      isThemeMenuOpen.value = false;
+    }
   });
-
   onMounted(() => {
     initTheme();
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (isThemeMenuOpen.value) {
+          isThemeMenuOpen.value = false;
+        }
+        if (isMenuOpen.value) {
+          isMenuOpen.value = false;
+          document.body.style.overflow = '';
+        }
+      }
+    });
+  });
+  const navigationLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Favorites', path: '/animals/favorites' },
+  ];
+  function toggleMenu() {
+    isMenuOpen.value = !isMenuOpen.value;
+    document.body.style.overflow = isMenuOpen.value ? 'hidden' : '';
+  }
+  watch(route, () => {
+    if (isMenuOpen.value) {
+      isMenuOpen.value = false;
+      document.body.style.overflow = '';
+    }
   });
 </script>

@@ -11,7 +11,7 @@
       <div class="mb-12 text-center">
         <h1
           :class="[
-            'motion-preset-focus mb-4 bg-gradient-to-r bg-clip-text text-4xl font-bold text-transparent motion-delay-100 md:text-5xl',
+            'font-atma-bold motion-preset-focus mb-4 bg-gradient-to-r bg-clip-text text-4xl text-transparent motion-delay-100 md:text-5xl',
             `from-${themeStore.getThemeColor('700')} to-${themeStore.getThemeColor('500')}`,
             `dark:from-${themeStore.getThemeColor('300')} dark:to-${themeStore.getThemeColor('100')}`,
           ]"
@@ -28,7 +28,7 @@
         </h1>
         <p
           :class="[
-            'motion-preset-focus mx-auto max-w-2xl text-lg motion-delay-200',
+            'font-atma-medium motion-preset-focus mx-auto max-w-2xl text-lg motion-delay-200',
             `text-${themeStore.getThemeColor('800')}`,
             `dark:text-${themeStore.getThemeColor('200')}`,
           ]"
@@ -36,10 +36,57 @@
           Discover the fascinating world of animals through our curated collection. From majestic
           predators to gentle giants, explore their unique characteristics and stories.
         </p>
-        <div class="mt-6 flex items-center justify-center">
+        <div class="mt-6 flex flex-col items-center justify-center gap-4">
+          <!-- Search Input -->
+          <div class="w-full max-w-xl">
+            <div
+              :class="[
+                'flex items-center gap-2 rounded-lg px-4 py-3',
+                `border bg-white/80 border-${themeStore.getThemeColor('400')} dark:bg-${themeStore.getThemeColor('900')}/80`,
+                'shadow-sm backdrop-blur-sm',
+              ]"
+            >
+              <Icon
+                icon="solar:magnifer-bold"
+                :class="[
+                  'h-5 w-5',
+                  `text-${themeStore.getThemeColor('500')}`,
+                  `dark:text-${themeStore.getThemeColor('400')}`,
+                ]"
+              />
+              <input
+                v-model="searchQuery"
+                type="text"
+                placeholder="Search for animals..."
+                :class="[
+                  'font-atma-medium w-full bg-transparent outline-none',
+                  `placeholder:text-${themeStore.getThemeColor('400')}`,
+                  `text-${themeStore.getThemeColor('900')}`,
+                  `dark:text-${themeStore.getThemeColor('100')}`,
+                  `dark:placeholder:text-${themeStore.getThemeColor('100')}`,
+                ]"
+                @keyup.enter="handleSearch"
+              />
+
+              <button
+                v-if="searchQuery"
+                @click="handleSearch"
+                :class="[
+                  'font-atma-medium rounded-lg px-3 py-1 text-sm transition-all',
+                  `bg-${themeStore.getThemeColor('500')}`,
+                  'text-white',
+                  `hover:bg-${themeStore.getThemeColor('600')}`,
+                ]"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+
+          <!-- Info Banner -->
           <div
             :class="[
-              'motion-preset-slide flex max-w-xl items-center gap-3 rounded-lg px-6 py-3 motion-delay-300',
+              'motion-preset-slide flex max-w-xl items-center gap-3 rounded-lg px-4 py-3 motion-delay-300',
               `bg-${themeStore.getThemeColor('500')}/10`,
               `dark:bg-${themeStore.getThemeColor('400')}/10`,
             ]"
@@ -54,7 +101,7 @@
             />
             <p
               :class="[
-                'text-sm',
+                'font-atma-medium text-sm',
                 `text-${themeStore.getThemeColor('700')}`,
                 `dark:text-${themeStore.getThemeColor('300')}`,
               ]"
@@ -75,7 +122,7 @@
         <div class="flex items-center justify-between">
           <h2
             :class="[
-              'mb-6 text-2xl font-bold',
+              'font-atma-bold mb-6 text-2xl',
               `text-${themeStore.getThemeColor('950')}`,
               `dark:text-${themeStore.getThemeColor('100')}`,
             ]"
@@ -93,7 +140,7 @@
           <button
             @click="shuffleAnimals"
             :class="[
-              'motion-preset-pop flex items-center gap-2 rounded-lg px-4 py-2 transition-all',
+              'font-atma-medium motion-preset-pop flex items-center gap-2 rounded-lg px-4 py-2 transition-all',
               `bg-${themeStore.getThemeColor('500')}/10`,
               `text-${themeStore.getThemeColor('700')}`,
               `hover:bg-${themeStore.getThemeColor('500')}/20`,
@@ -125,6 +172,7 @@
             />
             <p
               :class="[
+                'font-atma-medium',
                 `text-${themeStore.getThemeColor('700')}`,
                 `dark:text-${themeStore.getThemeColor('300')}`,
               ]"
@@ -162,7 +210,7 @@
         <div class="text-center">
           <p
             :class="[
-              'text-3xl font-bold',
+              'font-atma-bold text-3xl',
               `text-${themeStore.getThemeColor('700')}`,
               `dark:text-${themeStore.getThemeColor('300')}`,
             ]"
@@ -171,6 +219,7 @@
           </p>
           <p
             :class="[
+              'font-atma-medium',
               `text-${themeStore.getThemeColor('600')}`,
               `dark:text-${themeStore.getThemeColor('400')}`,
             ]"
@@ -180,7 +229,7 @@
         <div class="text-center">
           <p
             :class="[
-              'text-3xl font-bold',
+              'font-atma-bold text-3xl',
               `text-${themeStore.getThemeColor('700')}`,
               `dark:text-${themeStore.getThemeColor('300')}`,
             ]"
@@ -189,6 +238,7 @@
           </p>
           <p
             :class="[
+              'font-atma-medium',
               `text-${themeStore.getThemeColor('600')}`,
               `dark:text-${themeStore.getThemeColor('400')}`,
             ]"
@@ -198,7 +248,7 @@
         <div class="text-center">
           <p
             :class="[
-              'text-3xl font-bold',
+              'font-atma-bold text-3xl',
               `text-${themeStore.getThemeColor('700')}`,
               `dark:text-${themeStore.getThemeColor('300')}`,
             ]"
@@ -207,6 +257,7 @@
           </p>
           <p
             :class="[
+              'font-atma-medium',
               `text-${themeStore.getThemeColor('600')}`,
               `dark:text-${themeStore.getThemeColor('400')}`,
             ]"
@@ -228,6 +279,7 @@
 
   const animalsStore = useAnimalsStore();
   const themeStore = useThemeStore();
+  const searchQuery = ref('');
   const isLoading = ref(true);
 
   function shuffleArray(array) {
@@ -257,6 +309,17 @@
   function shuffleAnimals() {
     // Trigger a reactive update
     animalsStore.animals = [...animalsStore.animals];
+  }
+
+  async function handleSearch() {
+    if (!searchQuery.value.trim()) return;
+
+    isLoading.value = true;
+    try {
+      await animalsStore.fetchAnimals(searchQuery.value);
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   onMounted(async () => {
